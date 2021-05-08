@@ -1,0 +1,72 @@
+
+
+# 1 -- no_func_0
+No FUNC LABEL 0, ie, no main
+
+x2017 code used:
+FUNC LABEL 7
+    MOV STK A REG 0
+    MOV REG 0 PTR A
+    MOV REG 1 VAL 2
+    ADD REG 0 REG 1
+    MOV PTR A REG 0
+    RET
+
+# 2 -- stk_not_exist
+# use PTR where the corresponding STK not declared before
+
+x2017 code used:
+FUNC LABEL 0
+    MOV STK A VAL 3
+    REF STK A PTR B
+    RET
+In binary: 00 60 20 1C 13 43
+
+
+# 3 -- cal_func_not_exist
+# CAL a function that is not exist
+
+x2017 code used:
+FUNC LABEL 3
+    EQU REG 0
+    RET
+FUNC LABEL 0
+    MOV REG 0 VAL 3
+    CAL VAL 7
+    RET
+0C 3D 08 01 81 00 E1 43
+
+# 4 -- incompatible_type_equ
+# EQU with incompatible type, e.g. STK, EQU can only be followed with REG
+
+x2017 code used:
+FUNC LABEL 0
+    MOV STK A VAL 3
+    EQU STK A
+    PRINT STK A
+    RET
+00 03 0D 03 5C D5 44
+
+# 5 -- incompatible_type_ref
+# REF with incompatible type, e.g. VAL, REF can only be followed with address type
+x2017 code used:
+FUNC LABEL 0
+    MOV STK A VAL 3
+    REF VAL 3 STK A
+    PRINT STK A
+    RET
+00 0C 84 21 01 8E 15 44
+
+# 6 -- infinite_cal
+# Infinite loop of two functions call each other
+
+x2017 code used:
+FUNC LABEL 3
+    CAL VAL 0
+    RET
+FUNC LABEL 0
+    CAL VAL 3
+    RET
+60 01 42 00 61 42
+
+# 7 -- file_not_found

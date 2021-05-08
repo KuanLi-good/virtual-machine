@@ -1,0 +1,7 @@
+tests/no_func_0.x2017
+tests/stk_not_exist.x2017
+tests/cal_func_not_exist.x2017
+tests/incompatible_type_equ.x2017
+tests/incompatible_type_ref.x2017
+tests/infinite_cal.x2017
+tests/file_not_found.x2017

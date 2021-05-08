@@ -1,0 +1,57 @@
+1. NO FUNC LABEL 0 TEST
+In objdump_x2017: 
+FUNC LABEL 7
+    MOV STK A REG 0
+    MOV REG 0 PTR A
+    MOV REG 1 VAL 2
+    ADD REG 0 REG 1
+    MOV PTR A REG 0
+    RET
+In vm_x2017: FUNC LABEL 0 does not exist
+
+2. STK NOT EXIST TEST
+In objdump_x2017: Stack is not declared before, hence the pointer cannot be reached
+In vm_x2017: Stack is not declared before, hence the pointer cannot be reached
+
+3. CAL FUNC NOT EXIST TEST
+In objdump_x2017: 
+FUNC LABEL 3
+    EQU REG 0
+    RET
+FUNC LABEL 0
+    MOV REG 0 VAL 3
+    CAL VAL 7
+    RET
+In vm_x2017: FUNC LABEL 7 is not found
+
+4. INCOMPATIBLE TYPE FOR EQU TEST
+In objdump_x2017: 
+FUNC LABEL 0
+    MOV STK A VAL 3
+    EQU STK A
+    PRINT STK A
+    RET
+In vm_x2017: Invalid type, please use the specified type
+
+5. INCOMPATIBLE TYPE FOR REF TEST
+In objdump_x2017: 
+FUNC LABEL 0
+    MOV STK A VAL 3
+    REF VAL 3 STK A
+    PRINT STK A
+    RET
+In vm_x2017: Invalid type, please use the specified type
+
+6. INFINITE CAL TEST
+In objdump_x2017: 
+FUNC LABEL 3
+    CAL VAL 0
+    RET
+FUNC LABEL 0
+    CAL VAL 3
+    RET
+In vm_x2017: Stack overflow
+
+7. FILE NOT FOUND TEST
+In objdump_x2017: unable to open file: No such file or directory
+In vm_x2017: unable to open file: No such file or directory

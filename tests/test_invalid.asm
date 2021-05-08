@@ -1,0 +1,104 @@
+
+# no_func_0
+# No FUNC LABEL 0, ie, no main
+# "FUNC LABEL 0 does not exist"
+FUNC LABEL 7
+    MOV STK A REG 0
+    MOV REG 0 PTR A
+    MOV REG 1 VAL 2
+    ADD REG 0 REG 1
+    MOV PTR A REG 0
+    RET
+
+# stk_not_exist
+# use PTR where the corresponding STK not declared before
+# "Stack is not declared before, hence the pointer cannot be reached"
+FUNC LABEL 0
+    MOV STK A VAL 3
+    REF STK A PTR B
+    RET
+000
+00000011 00 00000 10 000
+00001 11 00000 10 011
+010 00011
+
+000000000110000000100000000111000001001101000011
+00 60 20 1C 13 43
+
+
+# cal_func_not_exist
+# CAL function not exist
+# "FUNC LABEL 7 is not found"
+FUNC LABEL 3
+    EQU REG 0
+    RET
+FUNC LABEL 0
+    MOV REG 0 VAL 3
+    CAL VAL 7
+    RET
+011
+000 01 111
+010 00010
+
+000
+00000011 00 000 01 000
+00000111 00 001
+010 00011
+
+0110000111101000010000000000110000001000000001110000101000011
+0C 3D 08 01 81 00 E1 43
+
+# incompatible_type_equ
+# EQU with incompatible type 
+# "Invalid type, please use the specified type"
+FUNC LABEL 0
+    MOV STK A VAL 3
+    EQU STK A
+    PRINT STK A
+    RET
+000
+00000011 00 00110 10 000
+00110 10 111
+00110 10 101
+010 00100
+
+000000000110000110100000011010111001101010101000100
+00 03 0D 03 5C D5 44
+
+# incompatible_type_ref
+# REF with incompatible type 
+# "Invalid type, please use the specified type"
+FUNC LABEL 0
+    MOV STK A VAL 3
+    REF VAL 3 STK A
+    PRINT STK A
+    RET
+
+000
+00000011 00 10000 10 000
+10000 10 00000011 00 011
+10000 10 101
+010 00100
+
+0000000001100100001000010000100000001100011100001010101000100
+00 0C 84 21 01 8E 15 44
+
+# infinite_cal
+# Infinite loop of two functions call each other
+# "Stack overflow"
+FUNC LABEL 3
+    CAL VAL 0
+    RET
+FUNC LABEL 0
+    CAL VAL 3
+    RET
+011
+00000000 00 001
+010 00010
+
+000
+00000011 00 001
+010 00010
+
+011000000000000101000010000000000110000101000010
+60 01 42 00 61 42
